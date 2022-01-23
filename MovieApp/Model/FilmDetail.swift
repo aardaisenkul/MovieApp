@@ -16,23 +16,23 @@ struct FilmDetail: Codable {
     let imdbRating, imdbID,response: String
     
     enum CodingKeys: String, CodingKey {
-            case title = "Title"
-            case year = "Year"
-          
-            case runtime = "Runtime"
-            case genre = "Genre"
-            case director = "Director"
-           
-            case actors = "Actors"
-            
-          
-            case country = "Country"
-           
-            case poster = "Poster"
-            
-          
-            case imdbRating, imdbID
-            case response = "Response"
-        }
+        case title = "Title"
+        case year = "Year"
+        
+        case runtime = "Runtime"
+        case genre = "Genre"
+        case director = "Director"
+        
+        case actors = "Actors"
+        
+        
+        case country = "Country"
+        
+        case poster = "Poster"
+        
+        
+        case imdbRating, imdbID
+        case response = "Response"
+    }
 }
 

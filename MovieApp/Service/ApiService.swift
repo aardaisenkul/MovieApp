@@ -18,7 +18,7 @@ class ApiService {
     
     func getFilmLists(searchStr: String, completion: @escaping (Result<FetchData?,DownloaderError>) -> Void) {
         
-       
+        
         
         let url = URL(string: baseURL + searchStr)
         
@@ -26,28 +26,28 @@ class ApiService {
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             
-        if let error = error {
-          
-            print(error.localizedDescription)
-            completion(.failure(.badUrl))
-        }
+            if let error = error {
+                
+                print(error.localizedDescription)
+                completion(.failure(.badUrl))
+            }
             
-        guard let data = data, error == nil else {
+            guard let data = data, error == nil else {
+                
+                return completion(.failure(.noData))
+            }
             
-            return completion(.failure(.noData))
-        }
+            guard let filmData = try? JSONDecoder().decode(FetchData.self, from: data) else {
+                return completion(.failure(.dataParseError))
+            }
             
-        guard let filmData = try? JSONDecoder().decode(FetchData.self, from: data) else {
-            return completion(.failure(.dataParseError))
-        }
-           
             completion(.success(filmData))
         }.resume()
         
     }
     
     func getFilmDetails(searchId: String, completion: @escaping (Result<FilmDetail?,DownloaderError>) -> Void) {
-       
+        
         
         let url = URL(string: detailBaseUrl + searchId)
         
@@ -55,18 +55,18 @@ class ApiService {
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             
-        if let error = error {
-            print(error.localizedDescription)
-            completion(.failure(.badUrl))
-        }
+            if let error = error {
+                print(error.localizedDescription)
+                completion(.failure(.badUrl))
+            }
             
-        guard let data = data, error == nil else {
-            return completion(.failure(.noData))
-        }
+            guard let data = data, error == nil else {
+                return completion(.failure(.noData))
+            }
             
-        guard let filmDetail = try? JSONDecoder().decode(FilmDetail.self, from: data) else {
-            return completion(.failure(.dataParseError))
-        }
+            guard let filmDetail = try? JSONDecoder().decode(FilmDetail.self, from: data) else {
+                return completion(.failure(.dataParseError))
+            }
             completion(.success(filmDetail))
         }.resume()
         

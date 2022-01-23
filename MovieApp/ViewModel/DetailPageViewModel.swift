@@ -10,7 +10,8 @@ import Foundation
 class DetailPageViewModel {
     
     var filmDetail: FilmDetail?
-
+    
+    var mainController : DetailViewController?
     
     func getDetail(str: String) {
         ApiService.shared.getFilmDetails(searchId: str) { result in
@@ -22,10 +23,11 @@ class DetailPageViewModel {
                     
                     DispatchQueue.main.async {
                         self.filmDetail = filmDetail
+                        self.mainController?.configureUI()
                     }
                 }
             }
         }
-        }
     }
-    
+}
+

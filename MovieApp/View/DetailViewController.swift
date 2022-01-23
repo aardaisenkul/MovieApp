@@ -8,7 +8,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -24,19 +24,20 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        detailViewModel.mainController = self
         detailViewModel.getDetail(str: detailImdbId)
         guard let detailedFilm = detailViewModel.filmDetail else {return}
         self.detailedFilm = detailedFilm
-      
-      
+        
+        
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configureUI()
-
+        
+        
     }
-
+    
     
     func configureUI(){
         prepareImg()
@@ -44,14 +45,14 @@ class DetailViewController: UIViewController {
         dateLabel.text = detailViewModel.filmDetail?.year
         actorLabel.text = detailViewModel.filmDetail?.actors
         countryLabel.text = detailViewModel.filmDetail?.country
-        directorLabel.text = detailViewModel.filmDetail?.director
-        ratingLabel.text = detailViewModel.filmDetail?.imdbRating
+        directorLabel.text = "Director: \(detailViewModel.filmDetail?.director ?? "")"
+        ratingLabel.text = "IMDB Rating: \(detailViewModel.filmDetail?.imdbRating ?? "")"
     }
     
     func prepareImg(){
         guard let imageUrl = detailViewModel.filmDetail?.poster else {return}
         let url = URL(string: imageUrl)
-
+        
         DispatchQueue.global().async {
             let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
             DispatchQueue.main.async {
@@ -60,7 +61,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-
-
+    
+    
 }
 

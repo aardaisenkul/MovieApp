@@ -11,7 +11,7 @@ import Foundation
 struct FetchData: Codable {
     let search: [FilmList]
     let totalResults, response: String
-
+    
     enum CodingKeys: String, CodingKey {
         case search = "Search"
         case totalResults
@@ -24,7 +24,7 @@ struct FilmList: Codable {
     let title, year, imdbID: String
     let type: TypeEnum
     let poster: String
-
+    
     enum CodingKeys: String, CodingKey {
         case title = "Title"
         case year = "Year"
