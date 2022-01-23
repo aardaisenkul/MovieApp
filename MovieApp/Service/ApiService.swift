@@ -14,9 +14,11 @@ class ApiService {
     
     let baseURL = "https://www.omdbapi.com/?apikey=ba64e5cb&s="
     
+    let detailBaseUrl = "https://www.omdbapi.com/?apikey=ba64e5cb&i="
+    
     func getFilmLists(searchStr: String, completion: @escaping (Result<FetchData?,DownloaderError>) -> Void) {
         
-        print("Service calıstı")
+       
         
         let url = URL(string: baseURL + searchStr)
         
@@ -25,26 +27,31 @@ class ApiService {
         URLSession.shared.dataTask(with: url) { data, response, error in
             
         if let error = error {
-            print(" ilk error geldi")
+          
             print(error.localizedDescription)
             completion(.failure(.badUrl))
         }
             
         guard let data = data, error == nil else {
-            print("basaramadım")
+            
             return completion(.failure(.noData))
         }
             
         guard let filmData = try? JSONDecoder().decode(FetchData.self, from: data) else {
             return completion(.failure(.dataParseError))
         }
-            print("basardım")
+           
             completion(.success(filmData))
         }.resume()
         
     }
     
-    func getFilmDetails(url: URL, completion: @escaping (Result<FilmDetail?,DownloaderError>) -> Void) {
+    func getFilmDetails(searchId: String, completion: @escaping (Result<FilmDetail?,DownloaderError>) -> Void) {
+       
+        
+        let url = URL(string: detailBaseUrl + searchId)
+        
+        guard let url = url else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MainPageViewModel {
+class MainPageViewModel : ObservableObject{
     
     var filmData: FetchData?
     var search: [FilmList]?
